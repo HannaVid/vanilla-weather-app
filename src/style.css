@@ -1,0 +1,114 @@
+body {
+  background-attachment: fixed;
+  background-color: #362e2d;
+  background-image: url("../images/charles-postiaux.jpg");
+  background-size: cover;
+  color: #fff;
+  font-family: "Prompt", sans-serif;
+  margin: 0;
+  min-width: 576px;
+  mix-blend-mode: myltiply;
+  padding: 0;
+}
+
+.main_container {
+  background-color: rgb(5 5 7/ 70%);
+  margin: 40px 55px;
+  padding: 40px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #99bfb5;
+}
+
+/* The style of the search block */
+.btn-outline-secondary {
+  background-color: rgb(5 5 7/ 40%);
+  border-color: rgb(5 5 7/ 40%);
+  color: #fff;
+}
+.btn-outline-secondary:hover {
+  background-color: #99bfb5;
+  color: #fff;
+}
+.form-control:focus {
+  background-color: #fff;
+  border-color: #fff;
+  box-shadow: 0 0 0 0.25rem rgb(0 0 0/ 25%);
+  color: #212529;
+  outline: 0;
+}
+
+/*The style of the weather today */
+.current_city {
+  font-size: 65px;
+  text-align: center;
+}
+
+.current_temperature {
+  font-size: 108px;
+  font-weight: 400;
+}
+
+.convert_units {
+  font-size: 20px;
+  position: relative;
+  top: -74px;
+}
+
+.active {
+  color: #99bfb5;
+  cursor: default;
+}
+
+.today_img {
+  max-height: 175px;
+  width: 100%;
+}
+
+.description {
+  text-transform: uppercase;
+}
+
+/*The style of the daily forecast*/
+
+.img_daily {
+  max-width: 75px;
+}
+
+.convert_daily_units {
+  font-size: 10px;
+  position: relative;
+  top: -6px;
+}
+
+.daily_row_forecast::after {
+  background-color: #fff;
+  content: "";
+  display: block;
+  height: 1px;
+  text-decoration: underline;
+  transform: scale(0);
+  transition: all 0.3s;
+  width: 100%;
+}
+.daily_row_forecast:hover::after {
+  transform: scale(1);
+}
+
+/* The style of the footer */
+footer li {
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-align: center;
+  word-spacing: 4px;
+}
+
+footer a {
+  text-decoration: underline;
+}
