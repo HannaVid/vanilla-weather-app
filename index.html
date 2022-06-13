@@ -25,6 +25,8 @@
       crossorigin="anonymous"
     ></script>
     <title>Weather App</title>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
 
   <body>
@@ -97,26 +99,7 @@
           <div class="col-lg-6">
             <h3>Daily forecast</h3>
             <br />
-
-            <div class="row daily_row_forecast">
-              <div class="col-md-3 my-auto">Sunday</div>
-              <div class="col-md-3 my-auto text-center">12.06</div>
-
-              <div class="col-md-3 my-auto">
-                <img
-                  src="images/icon/01d.svg"
-                  alt="Weather icon"
-                  class="img_daily"
-                />
-              </div>
-
-              <div class="col-md-3 my-auto">
-                <span class="daily_temp_max">25 </span
-                ><span class="convert_daily_units">°C</span> •
-                <span class="daily_temp_min">20 </span
-                ><span class="convert_daily_units">°C</span>
-              </div>
-            </div>
+            <div id="daily_forecast"></div>
           </div>
           <!-- The end of the second column -->
         </div>
