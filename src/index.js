@@ -2,6 +2,9 @@
 let apiKey = "227c2b4793ca0c16e450b597ecdebe79";
 let units = "metric";
 
+let searchForm = document.querySelector("#search-form");
+searchForm.addEventListener("submit", handleSubmit);
+
 //Default city for searching
 searchCity("London");
 
@@ -9,6 +12,14 @@ searchCity("London");
 function searchCity(city) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(displayWeather);
+}
+
+function handleSubmit(event) {
+  event.preventDefault();
+  let city = document.querySelector("#city-input").value;
+  if (city.length > 0) {
+    searchCity(city);
+  } else alert("Enter a city name!");
 }
 
 //Display details of weather today
