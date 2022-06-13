@@ -5,6 +5,9 @@ let units = "metric";
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", handleSubmit);
 
+let currentLocationButton = document.querySelector("#current-location-btn");
+currentLocationButton.addEventListener("click", getCurrentLocation);
+
 //Default city for searching
 searchCity("London");
 
@@ -154,4 +157,17 @@ function formatDailyForecastDayMonth(timestamp) {
   }
   let DayMonth = `${day}.${month}`;
   return DayMonth;
+}
+
+//Geolocation
+function getCurrentLocation(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition(searchLocation);
+}
+
+function searchLocation(position) {
+  let lat = position.coords.latitude;
+  let lon = position.coords.longitude;
+  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
+  axios.get(url).then(displayWeather);
 }
