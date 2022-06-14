@@ -1,6 +1,6 @@
 //The global variables
 let apiKey = "227c2b4793ca0c16e450b597ecdebe79";
-let units = "metric";
+let currentUnit;
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", handleSubmit);
@@ -13,7 +13,8 @@ searchCity("London");
 
 //Searching a city
 function searchCity(city) {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${units}`;
+  currentUnit = getUnit();
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=${currentUnit}`;
   axios.get(apiUrl).then(displayWeather);
 }
 
@@ -27,8 +28,11 @@ function handleSubmit(event) {
 
 //Display details of weather today
 function displayWeather(response) {
-  //Show current cuty
+  console.log(response.data);
+  //Show current city
   document.querySelector("#currentCity").innerHTML = response.data.name;
+
+  city = response.data.name;
 
   //Show current temperature
   document.querySelector("#current_temp").innerHTML = Math.round(
@@ -66,12 +70,13 @@ function displayWeather(response) {
     response.data.dt
   );
 
+  //Call function to get apiUrl for daily forecast
   getDailyForecast(response.data.coord);
 }
 
 // Daily forecast
 function getDailyForecast(coordinates) {
-  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${units}`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=${currentUnit}`;
   axios.get(apiUrl).then(displayDailyForecast);
 }
 
@@ -80,8 +85,16 @@ function displayDailyForecast(response) {
   let forecast = response.data.daily;
   let dailyForecastElement = document.querySelector("#daily_forecast");
   let forecastHTML = ``;
+  let unitWindSpeed = document.querySelector("#unit_speed_wind");
 
   forecast.slice(1).forEach(function (forecastDay, index) {
+    let valueCurrentUnit;
+    if (currentUnit === `metric`) {
+      valueCurrentUnit = "°C";
+    } else {
+      valueCurrentUnit = "°F";
+      unitWindSpeed.innerHTML = "miles/hour";
+    }
     if (index < 6) {
       forecastHTML += ` <div class="row daily_row_forecast">
               <div class="col-md-3 my-auto">${formatDailyForecastDate(
@@ -103,11 +116,11 @@ function displayDailyForecast(response) {
                 <span class="daily_temp_max">${Math.round(
                   forecastDay.temp.max
                 )} </span
-                ><span class="convert_daily_units">°C</span> •
+                ><span class="convert_daily_units">${valueCurrentUnit}</span> •
                 <span class="daily_temp_min">${Math.round(
                   forecastDay.temp.min
                 )} </span
-                ><span class="convert_daily_units">°C</span>
+                ><span class="convert_daily_units">${valueCurrentUnit}</span>
               </div>
             </div>`;
     }
@@ -168,6 +181,46 @@ function getCurrentLocation(event) {
 function searchLocation(position) {
   let lat = position.coords.latitude;
   let lon = position.coords.longitude;
-  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
+  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${currentUnit}&appid=${apiKey}`;
   axios.get(url).then(displayWeather);
 }
+
+//Convert block
+//For getting units
+function getUnitImperial(event) {
+  event.preventDefault();
+  currentUnit = `imperial`;
+  console.log(currentUnit);
+  //remove the active class from the celsius link
+  celsiusLink.classList.remove("active");
+  //add the active class to the fahrenheit link
+  fahrenheitLink.classList.add("active");
+  searchCity(city);
+}
+
+function getUnitMetric(event) {
+  event.preventDefault();
+  currentUnit = `metric`;
+  console.log(currentUnit);
+  //add the active class from the celsius link
+  celsiusLink.classList.add("active");
+  //   //remove the active class from from the fahrenheit link
+  fahrenheitLink.classList.remove("active");
+  searchCity(city);
+}
+
+function getUnit() {
+  let celsiusLink = document.querySelector(`#celsius-link`);
+  if (celsiusLink.className === "active") {
+    currentUnit = "metric";
+  } else {
+    currentUnit = "imperial";
+  }
+  return currentUnit;
+}
+
+let fahrenheitLink = document.querySelector(`#fahrenheit-link`);
+fahrenheitLink.addEventListener("click", getUnitImperial);
+
+let celsiusLink = document.querySelector(`#celsius-link`);
+celsiusLink.addEventListener("click", getUnitMetric);
