@@ -6,14 +6,14 @@ body {
   color: #fff;
   font-family: "Prompt", sans-serif;
   margin: 0;
-  min-width: 576px;
+  min-width: 540px;
   mix-blend-mode: myltiply;
   padding: 0;
 }
 
 .main_container {
   background-color: rgb(5 5 7/ 70%);
-  margin: 40px 167px;
+  margin: 40px 75px;
   padding: 40px;
 }
 
@@ -51,7 +51,7 @@ a:hover {
 }
 
 .current_temperature {
-  font-size: 108px;
+  font-size: 100px;
   font-weight: 400;
 }
 

@@ -8,6 +8,12 @@ searchForm.addEventListener("submit", handleSubmit);
 let currentLocationButton = document.querySelector("#current-location-btn");
 currentLocationButton.addEventListener("click", getCurrentLocation);
 
+let fahrenheitLink = document.querySelector(`#fahrenheit-link`);
+fahrenheitLink.addEventListener("click", getUnitImperial);
+
+let celsiusLink = document.querySelector(`#celsius-link`);
+celsiusLink.addEventListener("click", getUnitMetric);
+
 //Default city for searching
 searchCity("London");
 
@@ -28,11 +34,11 @@ function handleSubmit(event) {
 
 //Display details of weather today
 function displayWeather(response) {
-  console.log(response.data);
   //Show current city
   document.querySelector("#currentCity").innerHTML = response.data.name;
 
   city = response.data.name;
+  findPhotoCity(city);
 
   //Show current temperature
   document.querySelector("#current_temp").innerHTML = Math.round(
@@ -91,20 +97,23 @@ function displayDailyForecast(response) {
     let valueCurrentUnit;
     if (currentUnit === `metric`) {
       valueCurrentUnit = "°C";
+      unitWindSpeed.innerHTML = "metre/sec";
     } else {
       valueCurrentUnit = "°F";
       unitWindSpeed.innerHTML = "miles/hour";
     }
+
     if (index < 6) {
       forecastHTML += ` <div class="row daily_row_forecast">
               <div class="col-md-3 my-auto">${formatDailyForecastDate(
                 forecastDay.dt
-              )}</div>
-              <div class="col-md-3 my-auto text-center">${formatDailyForecastDayMonth(
-                forecastDay.dt
-              )}</div>
+              )}</span></div>
+              
+             <div class="col-md-3 my-auto text-md-center text-sm-start">
+      ${formatDailyForecastDayMonth(forecastDay.dt)}
+    </div>
 
-              <div class="col-md-3 my-auto">
+              <div class="col-md-3 my-auto text-center">
                 <img src="images/icon/${
                   forecastDay.weather[0].icon
                 }.svg" alt="${
@@ -112,7 +121,7 @@ function displayDailyForecast(response) {
       }" class="img_daily"/>
               </div>
 
-              <div class="col-md-3 my-auto">
+              <div class="col-md-3 my-auto text-center">
                 <span class="daily_temp_max">${Math.round(
                   forecastDay.temp.max
                 )} </span
@@ -190,7 +199,6 @@ function searchLocation(position) {
 function getUnitImperial(event) {
   event.preventDefault();
   currentUnit = `imperial`;
-  console.log(currentUnit);
   //remove the active class from the celsius link
   celsiusLink.classList.remove("active");
   //add the active class to the fahrenheit link
@@ -201,7 +209,6 @@ function getUnitImperial(event) {
 function getUnitMetric(event) {
   event.preventDefault();
   currentUnit = `metric`;
-  console.log(currentUnit);
   //add the active class from the celsius link
   celsiusLink.classList.add("active");
   //   //remove the active class from from the fahrenheit link
@@ -219,8 +226,18 @@ function getUnit() {
   return currentUnit;
 }
 
-let fahrenheitLink = document.querySelector(`#fahrenheit-link`);
-fahrenheitLink.addEventListener("click", getUnitImperial);
-
-let celsiusLink = document.querySelector(`#celsius-link`);
-celsiusLink.addEventListener("click", getUnitMetric);
+//For dynamic background
+function showPhotoCity(response) {
+  let photoAuthor = document.querySelector("#photo_details");
+  photoAuthor.innerHTML = `${response.data.user.first_name} ${response.data.user.last_name}`;
+  photoAuthor.setAttribute("href", response.data.user.links.html);
+  let elementImg = document.querySelector("body");
+  elementImg.style.setProperty(
+    `background-image`,
+    `url(${response.data.urls.regular})`
+  );
+}
+function findPhotoCity(city) {
+  let apiUrlPhoto = `https://api.unsplash.com/photos/random?&query=${city}&w=1200&content-filter=high&orientation=landscape&client_id=zKFbBI_aqTfQssbwXxQdftvpzlbBOXnYkFWFQecGjE0`;
+  axios.get(apiUrlPhoto).then(showPhotoCity);
+}

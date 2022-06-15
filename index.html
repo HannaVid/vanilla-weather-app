@@ -30,7 +30,7 @@
   </head>
 
   <body>
-    <div class="container-fluid mt-5">
+    <div class="container mt-5">
       <!-- Search block -->
       <form id="search-form">
         <div class="input-group mx-auto" style="width: 300px">
@@ -64,14 +64,14 @@
         <hr />
         <br />
         <div class="row ps-3">
-          <div class="col-lg-6">
+          <div class="col-xl-6">
             <h3 id="current_day">Today</h3>
             <div>Last updated: <span id="last_updated_time">time</span></div>
             <br /><br /><br />
             <div id="currentCity" class="current_city">City</div>
 
             <div class="row">
-              <div class="col-lg-6">
+              <div class="col-md-6">
                 <span class="current_temperature" id="current_temp"> 0</span>
                 <span class="convert_units">
                   <a href="#" id="celsius-link" class="active"> °C </a>
@@ -79,7 +79,7 @@
                   <a href="#" id="fahrenheit-link" class=""> °F </a>
                 </span>
               </div>
-              <div class="col-lg-6">
+              <div class="col-md-6">
                 <img
                   class="today_img"
                   id="icon"
@@ -96,7 +96,7 @@
           </div>
           <!-- The end of the first column  -->
 
-          <div class="col-lg-6">
+          <div class="col-xl-6 gy-sm-5 gy-xl-0">
             <h3>Daily forecast</h3>
             <br />
             <div id="daily_forecast"></div>
@@ -111,7 +111,7 @@
             <li>⦁ Coded by Hanna Vidieniova ⦁</li>
             <li>
               Photo by
-              <a
+              <a id="photo_details"
                 href="https://unsplash.com/@charlespostiaux?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
                 target="_blank"
                 >Charles Postiaux</a
